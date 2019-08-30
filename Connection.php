@@ -8,7 +8,7 @@ protected function Dbase() {
 	$this->servername="localhost";
 	$this->username="root";
 	$this->password="";
-	$this->dabase="digital_team";
+	$this->dabase="registrationform";
 	$conn = new mysqli($this->servername,$this->username,$this->password,$this->dabase);
 	return $conn;
 }
