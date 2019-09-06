@@ -13,14 +13,14 @@ class queries{
 	}
 	function tabcre($conn)
 	{
-		$sql = "create table studentsinfo
-		( id int not null primary key auto_increment,
-		  firstname varchar(50),
-		  lastname varchar(50),
-		  email varchar(30),
-		  phonenumber varchar(10),
-		  age int,
-		  dateofjoining date  
+		$sql = "create table studentsinfo                                                                                                                                  
+		( id int not null primary key auto_increment,                                                                                                                                 
+		  firstname varchar(50),                                                                                                                                                                        
+		  lastname varchar(50),                                                                                                                                               
+		  email varchar(30),                                                                                                                                               
+		  phonenumber varchar(10),                                                                                                                                          
+		  age int,                                                                                                                                                   
+		  dateofjoining date                                                                                                                                               
 		)";
 		if(mysqli_query($conn, $sql)) {
 			echo "table is created" .'<br>';
@@ -37,6 +37,9 @@ class queries{
 		$department = $_POST['departments'];
 		$age=$_POST['age'];
 		$date_joining=$_POST['date_joining'];
+		if(isset($_POST['pword'])){
+		$password = $_POST['pword'];
+		}
 		$file = $_FILES['image'];
 		$fileName = $_FILES['image']['name'];
 		//print_r($file);
@@ -51,14 +54,15 @@ class queries{
 		{
 			echo "not moved";
 		}*/
-		$sql = "insert into studentsinfo (firstname,lastname,email,phonenumber,age,dateofjoining,department,image) values ('$first_name','$last_name','$email_id','$Phone_number','$age','$date_joining','$department','$fileName')";
+		$sql = "insert into studentsinfo (firstname,lastname,email,phonenumber,age,dateofjoining,department,image,password) values ('$first_name','$last_name','$email_id','$Phone_number','$age','$date_joining','$department','$fileName','$password')";
 		if(mysqli_query($conn, $sql)){ 
-		//	echo "details are inserted";
+		echo "successfully registred";?>
+				<a href = "login.php">login</a><?php echo "";
 		} else {
 		//echo "details are not inserted" .$conn->error;
 		}
 	}
-	function selection($conn)
+	/*function selection($conn)
 	{
 		$sql = "select firstname,lastname,email,phonenumber,age,dateofjoining,departmentname,image from studentsinfo join department_table on studentsinfo.department = department_table.idno";
 		if($res=mysqli_query($conn, $sql)) {
@@ -96,11 +100,12 @@ class queries{
 		} else {
 			echo "execution is not done" .$conn->error;
 		}
-	}
+	}*/
+	
 }
 $obj1 = new queries;
 $conn = $obj1->dabase();
 $obj1->tabcre($conn);
 $obj1->insertion($conn);
-$obj1->selection($conn);
+//$obj1->selection($conn);
 ?>

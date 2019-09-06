@@ -17,5 +17,4 @@
 		echo "Creation of database is not possible" .mysqli_error($conn);
 	}
 	mysqli_close($conn);
-	
 ?>
