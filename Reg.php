@@ -36,6 +36,9 @@ class queries{
 		$Phone_number = $_POST['Phone_number'];
 		$department = $_POST['departments'];
 		$age=$_POST['age'];
+		$country = $_POST['country'];
+		$state = $_POST['state'];
+		$city = $_POST['city'];
 		$date_joining=$_POST['date_joining'];
 		if(isset($_POST['pword'])){
 		$password = $_POST['pword'];
@@ -54,7 +57,7 @@ class queries{
 		{
 			echo "not moved";
 		}*/
-		$sql = "insert into studentsinfo (firstname,lastname,email,phonenumber,age,dateofjoining,department,image,password) values ('$first_name','$last_name','$email_id','$Phone_number','$age','$date_joining','$department','$fileName','$password')";
+		$sql = "insert into studentsinfo (firstname,lastname,email,phonenumber,age,dateofjoining,department,image,password,country,state,city,status) values ('$first_name','$last_name','$email_id','$Phone_number','$age','$date_joining','$department','$fileName','$password','$country','$state','$city','active')";
 		if(mysqli_query($conn, $sql)){ 
 		echo "successfully registred";?>
 				<a href = "login.php">login</a><?php echo "";

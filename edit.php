@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	$servername = "localhost";
 	$username = "root";
 	$password = "";
@@ -21,13 +22,12 @@
 			$countryname = $row['country_name'];
 			$cid = $row['cid'];
 			$options1=$options1.'<option value="'.$cid.'">'.$countryname.'</option>';
-		}
-		
+		}		
 ?>
 <!DOCTYPE html>
 <html>
 	<head>
-	<h><center><b>Student regstration form</b></center></h>
+	<h><center><b>update your details</b></center></h>
 	</head>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -35,38 +35,46 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 		<script src="ValidationsjQ.js"></script>
 	<body>
-		<form id = "form" method = "POST" onsubmit="return validate();" action = "Reg.php" enctype="multipart/form-data">
-			<b>firstname:</b><input id = "firstname" name = "first_name" placeholder = "firstname" type = "text" required><br><br>
-			<b>lastname:</b><input id = "lastname" name = "last_name" placeholder = "lastname" type = "text" ><br><br>
-			<b>email id:</b><input id = "emailid" name = "email_id" placeholder = "email id" type = "text" required><br><br>
-			<b>phone number:</b><input id = "phonenumber" name = "Phone_number" placeholder = "phone number" type = "text" required><br><br>
+		<form id = "form" method = "POST" onsubmit="return validate();" action = "update.php" enctype="multipart/form-data">
+		<?php
+			$row_no=$_POST['row_id'];
+			$_SESSION['id']=$row_no;
+			$sql = "select * from studentsinfo where id = '".$row_no."'";
+			if($res=mysqli_query($conn, $sql))  {
+			if($res->num_rows > 0) {
+				while($row = $res->fetch_array()) {
+		?>
+			<b>firstname:</b><input id = "firstname" name = "first_name" placeholder = "firstname" type = "text" required value ="<?php echo $row['firstname'];?>"><br><br>
+			<b>lastname:</b><input id = "lastname" name = "last_name" placeholder = "lastname" type = "text" value ="<?php echo $row['lastname'];?>"><br><br>
+			<b>email id:</b><input id = "emailid" name = "email_id" placeholder = "email id" type = "text" required value ="<?php echo $row['email'];?>"><br><br>
+			<b>phone number:</b><input id = "phonenumber" name = "Phone_number" placeholder = "phone number" type = "text" required value ="<?php echo $row['phonenumber'];?>"><br><br>
 			<b>country:</b>
-			<select name = "country" onchange = "myfun(this.value)">
+			<select name = "country" onchange = "myfun(this.value)" value ="<?php echo $row['country'];?>" required>
 							<option>select any one</option>
 			<?php
 				echo $options1;
 			?>
 			</select><br><br>
-			<b>state:</b><select id = "dataget" name = "state" onchange = "myfunc(this.value)">
+			<b>state:</b><select id = "dataget" name = "state" onchange = "myfunc(this.value)" required>
 				<option>choose any one</option>
 			 </select><br><br>
-			<b>city:</b><select name = "city" id = "dataget1">
+			<b>city:</b><select name = "city" id = "dataget1" required>
 				<option>choose any one</option>
 			 </select><br><br>
 			<b>Department:</b>
-			<select name = "departments" >
+			<select name = "departments" required>
 			<option>select any one</option>
 			<?php
 				echo $options;
 			?>
 			</select><br><br>
-			<b>age :</b><input name = "age" placeholder = "age" type = "number" min = "20" max = "45"required><br><br>
-			<b>date of joining :</b><input id = "dateofjoining" name = "date_joining" placeholder="YYYY-DD-MM" required><br><br>
-			<b>photo:<input type = "file" name = "image"></b><br><br>
-			<b>password:<input id = "pword" type = "password" name = "pword" placeholder = "create password" required><br><br>
-			<b>retype password:<input id = "repword" type = "password" placeholder = "retype password" required><br><br>
-			<button type="Submit" id = "btn">Submit</button>
-			<button type="Reset" value = "Reset">Reset</button>
+			<b>age :</b><input name = "age" placeholder = "age" type = "number" min = "20" max = "45"required value ="<?php echo $row['age'];?>"><br><br>
+			<b>date of joining :</b><input id = "dateofjoining" name = "date_joining" placeholder="YYYY-DD-MM" required value ="<?php echo $row['dateofjoining'];?>"><br><br>
+			<button type="Submit" id = "btn">Submit</button> <?php 
+				}
+			}
+		}
+			?>
 			<script>
 	function myfun(datavalue) {
 	$.ajax({
@@ -92,7 +100,5 @@
 	}
 	</script>
 		</form><br><br>
-		already registered <a href = "login.php">  login</a>  here<br><br>
-		admin <a href = "admin.php">  login </a> here
 	</body>
 </html>
